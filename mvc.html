@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">        
+        
+        <style>
+            .piece{
+                padding:100px;
+                margin:5px;
+                max-width:49%;
+                background-color:dimgray;
+                
+            }
+            h6.indent
+            { 
+                padding-left: 1em
+                
+            }
+            body{
+                background-image: url("map.jpg");
+            }
+        </style>
+    </head>
+    
+    <body id="game">
+        <div class="container">
+            <h1 style ="font-family:cursive; text-align:center; background:white;">Treasure Hunt</h1>
+            <div id="game_tiles" class="row justify-content-center"> 
+
+            </div>
+            <div class="row"><h6 style ="font-family:cursive; background:white; font-size:22px" >Guesses:  </h6><br><h6 id="guess_count" class="indent" style ="font-size:22px"></h6> </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>        
+        
+        <div id='new' class="modal" tabindex="-1" role="dialog"data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header bg-dark text-light">
+                <h4 class="modal-title">Game Over! You Win!</h4>
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Click YES to Play Again!</p>
+              </div>
+              <div class="modal-footer">
+                <button id='yes' type="button" class="btn btn-primary" style="background-color: dodgerblue" onClick="window.location.reload()">Yes</button>
+                <button id='close_window' type="button" class="btn btn-secondary" data-dismiss="modal">Quit</button>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <script>
+        
+        $(document).ready(function() 
+        {
+            /*global $ */
+            let game = {};
+            function initializeModel()
+            {
+                game.count = 6;
+                game.winner = Math.floor(Math.random() * Math.floor(game.count));
+                game.guess = 0;
+            }
+            
+            function updateView()
+            {
+                $('#game_tiles').empty();                
+                for (var x = 0;x < game.count; x++) 
+                {
+                    let board = $("<div></div>");
+                    board.addClass("col-sm-3 piece");
+                    board.attr("id",x.toString());
+                    $('#game_tiles').append(board);
+                }
+            }
+            
+            $(document).ready(function(){
+				$(".piece ").on({
+					click: function()
+					{
+					    if(this.id != game.winner)
+						    $(this).css("background-color", "darkred");
+						else{
+						    $(this).css("background-color", "darkgreen");
+						    $('#new').modal('show');
+						}
+						game.guess++;
+						$('#guess_count').html(game.guess);
+					}  
+				});
+				
+				$('#yes').on({click:function() 
+                    {
+                        
+                        $('#new').modal('hide');
+                      initializeModel();
+                      updateView();
+                    }
+                   
+				});
+			
+				$('#close').on({
+    				click: function() 
+                    {
+                        $('#new').modal('hide');
+                        $(".piece").off('click');
+                    }
+				});
+			});
+            initializeModel();
+            updateView();
+        });
+        </script>
+        <footer>Treasure Hunt 2019</footer>
+    </body>
+</html>
