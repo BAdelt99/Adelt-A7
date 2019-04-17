@@ -46,7 +46,7 @@
                 <p>Click YES to Play Again!</p>
               </div>
               <div class="modal-footer">
-                <button id='yes' type="button" class="btn btn-primary" style="background-color: dodgerblue" onClick="window.location.reload()">Yes</button>
+                <button id='playagain' type="button" class="btn btn-primary" style="background-color: dodgerblue" onClick="window.location.reload()">Yes</button>
                 <button id='close_window' type="button" class="btn btn-secondary" data-dismiss="modal">Quit</button>
               </div>
             </div>
@@ -71,7 +71,7 @@
                 for (var x = 0;x < game.count; x++) 
                 {
                     let board = $("<div></div>");
-                    board.addClass("col-sm-3 piece");
+                    board.addClass("col-sm-4 piece");
                     board.attr("id",x.toString());
                     $('#game_tiles').append(board);
                 }
@@ -92,7 +92,7 @@
 					}  
 				});
 				
-				$('#yes').on({click:function() 
+				$('#playagain').on({click:function() 
                     {
                         
                         $('#new').modal('hide');
